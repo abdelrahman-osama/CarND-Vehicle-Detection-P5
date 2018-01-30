@@ -38,15 +38,15 @@ You're reading it!
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+The code for this step is contained in the code cell with the function called extract_features.
 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
+I then explored different color spaces and chose YUV and I explored and tried different hog parameters.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+Here is an example using the `YUV` color space and HOG parameters of `orientations=11`, `pixels_per_cell=(16, 16)` and `cells_per_block=(2, 2)`:
 
 
 ![alt text][image2]
@@ -57,7 +57,7 @@ I tried various combinations of parameters and I finally settled on usng the YUV
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using the LinearSVC in sklearn with the vehicle and non-vehicle datasets provided in the course. The feature vector length: 1188, it took 3.42 Seconds to train the model with test accuracy of 0.971.
+I trained a linear SVM (can be found in the code cell named SVM Classifier) using the LinearSVC in sklearn with the vehicle and non-vehicle datasets provided in the course. The feature vector length: 1188, it took 3.42 Seconds to train the model with test accuracy of 0.971.
 
 ### Sliding Window Search
 
@@ -67,7 +67,7 @@ I decided to take an approach were I will do a window search in every horizontal
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+I implemented a history of non-false positive frames and used it with the heatmap to decrease the false positives. It works best on a video as images do not have a history.
 
 ![alt text][image4]
 ---

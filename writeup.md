@@ -53,19 +53,17 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I tried various combinations of parameters and I finally settled on usng the YUV color space taking ALL the channels, 11 orient 16 pixels per cell and 2 cells per block. My previous good preference was RGB and I still don't really find a huge difference between it and the YUV but the YUV just got me a better output in the shady areas were there used to be some false positives with the RGB. For the other parameters I just kept trying and testing parameters around the ones in the course quizzes and this ones got me the best results I was able to achieve.
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM using the LinearSVC in sklearn with the vehicle and non-vehicle datasets provided in the course. The feature vector length: 1188, it took 3.42 Seconds to train the model with test accuracy of 0.971.
 
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
-
-![alt text][image3]
+I decided to take an approach were I will do a window search in every horizontal stripe with a different window size based on the assumption that as the cars get closer thet are bigger and when they are far they are smaller. So I created 8 different window sizes for the video. The closer the window the higher value I used in the scale.
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
@@ -77,7 +75,7 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_output.mp4)
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
@@ -104,5 +102,5 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The problem I faced was that the windows detecting the cars are not stable as in they do not work in all frames. In addition, the car can be detected more than one time as the features get detected as different cars. Also there was some false positives in shadow such as the tree part in the video. I think I may need a stronger classifier than the SVC, maybe using pretrained weights from something like DarkNet or YOLO, this would make the output much better.
 
